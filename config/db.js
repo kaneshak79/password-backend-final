@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB);
+    await mongoose.connect(process.env.BREVO_MONGODB);
     console.log("MongoDB Connected");
   } catch (err) {
     console.error("DB Error", err.message);

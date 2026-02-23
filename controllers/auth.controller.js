@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { sendResetMail } from "../utils/sendMail.js";
+import { sendMail } from "../utils/sendMail.js";
 
 export const register = async (req, res) => {
   try {
@@ -38,26 +38,49 @@ export const login = async (req, res) => {
   }
 };
 
-// Forgot Password
+
+
+/* Forgot Password */
 export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
+
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const token = crypto.randomBytes(32).toString("hex");
-
     user.resetToken = token;
     user.resetTokenExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
-    const link = `${process.env.CLIENT_URL}/reset-password/${token}`;
-    await sendResetMail(email, link);
+    const link = `${process.env.BREVO_CLIENT_URL}/reset-password/${token}`;
+    await sendMail(email, link);
+
     res.json({ message: "Reset link sent to email" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    console.error("Forgot Password Error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
+// export const forgotPassword = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     const user = await User.findOne({ email });
+//     if (!user) return res.status(404).json({ message: "User not found" });
+
+//     const token = crypto.randomBytes(32).toString("hex");
+
+//     user.resetToken = token;
+//     user.resetTokenExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes
+//     await user.save();
+
+//     const link = `${process.env.CLIENT_URL}/reset-password/${token}`;
+//     await sendResetMail(email, link);
+//     res.json({ message: "Reset link sent to email" });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
 
 // Verify Token
 export const verifyToken = async (req, res) => {

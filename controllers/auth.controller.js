@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { sendMail } from "../utils/sendMail.js";
+import sendMail from "../utils/sendMail.js";
 
 export const register = async (req, res) => {
   try {
@@ -53,7 +53,7 @@ export const forgotPassword = async (req, res) => {
     user.resetTokenExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
-    const link = `${process.env.BREVO_CLIENT_URL}/reset-password/${token}`;
+    const link = `${process.env.CLIENT_URL}/reset-password/${token}`;
     await sendMail(email, link);
 
     res.json({ message: "Reset link sent to email" });

@@ -1,383 +1,414 @@
-// // // // // // // // // // import SibApiV3Sdk from "sib-api-v3-sdk";
+// // // // // // // // // // // // import SibApiV3Sdk from "sib-api-v3-sdk";
+
+// // // // // // // // // // // // export const sendMail = async (to, link) => {
+// // // // // // // // // // // //   try {
+// // // // // // // // // // // //     const defaultClient = SibApiV3Sdk.ApiClient.instance;
+// // // // // // // // // // // //     const apiKey = defaultClient.authentications["api-key"];
+// // // // // // // // // // // //     apiKey.apiKey = process.env.BREVO_API_KEY;
+
+// // // // // // // // // // // //     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+// // // // // // // // // // // //     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail({
+// // // // // // // // // // // //       to: [{ email: to }],
+// // // // // // // // // // // //       sender: { email: process.env.BREVO_EMAIL_USER, name: "Your App Name" },
+// // // // // // // // // // // //       subject: "Password Reset",
+// // // // // // // // // // // //       htmlContent: `
+// // // // // // // // // // // //         <h2>Password Reset</h2>
+// // // // // // // // // // // //         <p>Click the link below to reset your password:</p>
+// // // // // // // // // // // //         <a href="${link}">${link}</a>
+// // // // // // // // // // // //         <p>This link will expire in 10 minutes.</p>
+// // // // // // // // // // // //       `
+// // // // // // // // // // // //     });
+
+// // // // // // // // // // // //     await apiInstance.sendTransacEmail(sendSmtpEmail);
+// // // // // // // // // // // //     console.log(`Password reset email sent to ${to}`);
+// // // // // // // // // // // //   } catch (err) {
+// // // // // // // // // // // //     console.error("Brevo API send email error:", err);
+// // // // // // // // // // // //   }
+// // // // // // // // // // // // };
+
+// // // // // // // // // // // // import SibApiV3Sdk from "sib-api-v3-sdk";
+
+// // // // // // // // // // // // export const sendMail = async (to, link) => {
+// // // // // // // // // // // //   try {
+// // // // // // // // // // // //     const defaultClient = SibApiV3Sdk.ApiClient.instance;
+// // // // // // // // // // // //     const apiKey = defaultClient.authentications["api-key"];
+// // // // // // // // // // // //     apiKey.apiKey = process.env.BREVO_API_KEY;
+
+// // // // // // // // // // // //     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+// // // // // // // // // // // //     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail({
+// // // // // // // // // // // //       to: [{ email: to }],
+// // // // // // // // // // // //       sender: { email: process.env.BREVO_EMAIL_USER, name: "Your App Name" },
+// // // // // // // // // // // //       subject: "Password Reset",
+// // // // // // // // // // // //       htmlContent: `
+// // // // // // // // // // // //         <h2>Password Reset</h2>
+// // // // // // // // // // // //         <p>Click the link below to reset your password:</p>
+// // // // // // // // // // // //         <a href="${link}">${link}</a>
+// // // // // // // // // // // //         <p>This link will expire in 10 minutes.</p>
+// // // // // // // // // // // //       `
+// // // // // // // // // // // //     });
+
+// // // // // // // // // // // //     const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+// // // // // // // // // // // //     console.log("Email sent successfully:", response);
+// // // // // // // // // // // //   } catch (err) {
+// // // // // // // // // // // //     console.error("Brevo API send email error:", err);
+// // // // // // // // // // // //   }
+// // // // // // // // // // // // };
+
+// // // // // // // // // // // // Install with: npm install resend
+// // // // // // // // // // // const { Resend } = require('resend');
+
+// // // // // // // // // // // const resend = new Resend(process.env.RESEND_API_KEY);
+
+// // // // // // // // // // // const sendMail = async (userEmail, token) => {
+// // // // // // // // // // //     const baseUrl = process.env.BASE_URL; // e.g., https://your-app.onrender.com
+// // // // // // // // // // //     const link = `${baseUrl}/verify-email?token=${token}`;
+
+// // // // // // // // // // //     try {
+// // // // // // // // // // //         const data = await resend.emails.send({
+// // // // // // // // // // //             from: 'onboarding@resend.dev', // Use your verified domain later
+// // // // // // // // // // //             to: userEmail,
+// // // // // // // // // // //             subject: 'Verify Your Email',
+// // // // // // // // // // //             html: `<p>Click <a href="${link}">here</a> to verify your account.</p>`
+// // // // // // // // // // //         });
+// // // // // // // // // // //         console.log('Email sent:', data);
+// // // // // // // // // // //     } catch (error) {
+// // // // // // // // // // //         console.error('Error sending email:', error);
+// // // // // // // // // // //     }
+// // // // // // // // // // // };
+
+// // // // // // // // // // import { Resend } from "resend";
+// // // // // // // // // // // Initialize Resend with your API Key
+// // // // // // // // // // const resend = new Resend(process.env.RESEND_API_KEY);
 
 // // // // // // // // // // export const sendMail = async (to, link) => {
 // // // // // // // // // //   try {
-// // // // // // // // // //     const defaultClient = SibApiV3Sdk.ApiClient.instance;
-// // // // // // // // // //     const apiKey = defaultClient.authentications["api-key"];
-// // // // // // // // // //     apiKey.apiKey = process.env.BREVO_API_KEY;
-
-// // // // // // // // // //     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
-// // // // // // // // // //     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail({
-// // // // // // // // // //       to: [{ email: to }],
-// // // // // // // // // //       sender: { email: process.env.BREVO_EMAIL_USER, name: "Your App Name" },
+// // // // // // // // // //     const data = await resend.emails.send({
+// // // // // // // // // //       // Resend requires a verified domain or 'onboarding@resend.dev' for testing
+// // // // // // // // // //       from: "Password Reset <onboarding@resend.dev>", 
+// // // // // // // // // //       to: [to],
 // // // // // // // // // //       subject: "Password Reset",
-// // // // // // // // // //       htmlContent: `
-// // // // // // // // // //         <h2>Password Reset</h2>
-// // // // // // // // // //         <p>Click the link below to reset your password:</p>
-// // // // // // // // // //         <a href="${link}">${link}</a>
-// // // // // // // // // //         <p>This link will expire in 10 minutes.</p>
-// // // // // // // // // //       `
+// // // // // // // // // //       html: `
+// // // // // // // // // //         <div style="font-family: sans-serif; padding: 20px;">
+// // // // // // // // // //           <h2>Password Reset</h2>
+// // // // // // // // // //           <p>Click the button below to reset your password:</p>
+// // // // // // // // // //           <a href="${link}" style="background: #000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+// // // // // // // // // //             Reset Password
+// // // // // // // // // //           </a>
+// // // // // // // // // //           <p>Alternatively, copy and paste this link: <br> ${link}</p>
+// // // // // // // // // //           <p style="color: #666; font-size: 12px;">This link will expire in 10 minutes.</p>
+// // // // // // // // // //         </div>
+// // // // // // // // // //       `,
 // // // // // // // // // //     });
 
-// // // // // // // // // //     await apiInstance.sendTransacEmail(sendSmtpEmail);
-// // // // // // // // // //     console.log(`Password reset email sent to ${to}`);
-// // // // // // // // // //   } catch (err) {
-// // // // // // // // // //     console.error("Brevo API send email error:", err);
+// // // // // // // // // //     console.log("Email sent successfully:", data);
+// // // // // // // // // //     return data;
+// // // // // // // // // //   } catch (error) {
+// // // // // // // // // //     console.error("Resend Error:", error);
+// // // // // // // // // //     throw new Error("Failed to send reset email.");
 // // // // // // // // // //   }
 // // // // // // // // // // };
 
-// // // // // // // // // // import SibApiV3Sdk from "sib-api-v3-sdk";
+// // // // // // // // // import { Resend } from "resend";
 
-// // // // // // // // // // export const sendMail = async (to, link) => {
-// // // // // // // // // //   try {
-// // // // // // // // // //     const defaultClient = SibApiV3Sdk.ApiClient.instance;
-// // // // // // // // // //     const apiKey = defaultClient.authentications["api-key"];
-// // // // // // // // // //     apiKey.apiKey = process.env.BREVO_API_KEY;
+// // // // // // // // // export const sendMail = async (to, link) => {
+// // // // // // // // //   // Access the key inside the function to ensure process.env is populated
+// // // // // // // // //   const resend = new Resend(process.env.RESEND_API_KEY);
 
-// // // // // // // // // //     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+// // // // // // // // //   if (!process.env.RESEND_API_KEY) {
+// // // // // // // // //     throw new Error("RESEND_API_KEY is missing from environment variables");
+// // // // // // // // //   }
 
-// // // // // // // // // //     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail({
-// // // // // // // // // //       to: [{ email: to }],
-// // // // // // // // // //       sender: { email: process.env.BREVO_EMAIL_USER, name: "Your App Name" },
-// // // // // // // // // //       subject: "Password Reset",
-// // // // // // // // // //       htmlContent: `
-// // // // // // // // // //         <h2>Password Reset</h2>
-// // // // // // // // // //         <p>Click the link below to reset your password:</p>
-// // // // // // // // // //         <a href="${link}">${link}</a>
-// // // // // // // // // //         <p>This link will expire in 10 minutes.</p>
-// // // // // // // // // //       `
-// // // // // // // // // //     });
-
-// // // // // // // // // //     const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
-// // // // // // // // // //     console.log("Email sent successfully:", response);
-// // // // // // // // // //   } catch (err) {
-// // // // // // // // // //     console.error("Brevo API send email error:", err);
-// // // // // // // // // //   }
-// // // // // // // // // // };
-
-// // // // // // // // // // Install with: npm install resend
-// // // // // // // // // const { Resend } = require('resend');
-
-// // // // // // // // // const resend = new Resend(process.env.RESEND_API_KEY);
-
-// // // // // // // // // const sendMail = async (userEmail, token) => {
-// // // // // // // // //     const baseUrl = process.env.BASE_URL; // e.g., https://your-app.onrender.com
-// // // // // // // // //     const link = `${baseUrl}/verify-email?token=${token}`;
-
-// // // // // // // // //     try {
-// // // // // // // // //         const data = await resend.emails.send({
-// // // // // // // // //             from: 'onboarding@resend.dev', // Use your verified domain later
-// // // // // // // // //             to: userEmail,
-// // // // // // // // //             subject: 'Verify Your Email',
-// // // // // // // // //             html: `<p>Click <a href="${link}">here</a> to verify your account.</p>`
-// // // // // // // // //         });
-// // // // // // // // //         console.log('Email sent:', data);
-// // // // // // // // //     } catch (error) {
-// // // // // // // // //         console.error('Error sending email:', error);
-// // // // // // // // //     }
+// // // // // // // // //   try {
+// // // // // // // // //     await resend.emails.send({
+// // // // // // // // //       from: "Password Reset <onboarding@resend.dev>",
+// // // // // // // // //       to: [to],
+// // // // // // // // //       subject: "Password Reset",
+// // // // // // // // //       html: `<p>Click <a href="${link}">here</a> to reset your password.</p>`,
+// // // // // // // // //     });
+// // // // // // // // //     console.log("Email sent!");
+// // // // // // // // //   } catch (error) {
+// // // // // // // // //     console.error("Resend Error:", error);
+// // // // // // // // //   }
 // // // // // // // // // };
 
 // // // // // // // // import { Resend } from "resend";
-// // // // // // // // // Initialize Resend with your API Key
-// // // // // // // // const resend = new Resend(process.env.RESEND_API_KEY);
 
 // // // // // // // // export const sendMail = async (to, link) => {
+// // // // // // // //   // 1. Check if the key exists FIRST
+// // // // // // // //   const apiKey = process.env.RESEND_API_KEY;
+
+// // // // // // // //   if (!apiKey) {
+// // // // // // // //     console.error("❌ ERROR: RESEND_API_KEY is missing from .env file or Render settings.");
+// // // // // // // //     return; // Stop here so the app doesn't crash
+// // // // // // // //   }
+
+// // // // // // // //   // 2. Initialize ONLY if key exists
+// // // // // // // //   const resend = new Resend(apiKey);
+
 // // // // // // // //   try {
-// // // // // // // //     const data = await resend.emails.send({
-// // // // // // // //       // Resend requires a verified domain or 'onboarding@resend.dev' for testing
-// // // // // // // //       from: "Password Reset <onboarding@resend.dev>", 
+// // // // // // // //     // 3. Capture the response from Resend to see errors
+// // // // // // // //     const { data, error } = await resend.emails.send({
+// // // // // // // //       from: "Password Reset <onboarding@resend.dev>",
 // // // // // // // //       to: [to],
 // // // // // // // //       subject: "Password Reset",
 // // // // // // // //       html: `
-// // // // // // // //         <div style="font-family: sans-serif; padding: 20px;">
+// // // // // // // //         <div style="font-family: sans-serif;">
 // // // // // // // //           <h2>Password Reset</h2>
-// // // // // // // //           <p>Click the button below to reset your password:</p>
-// // // // // // // //           <a href="${link}" style="background: #000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-// // // // // // // //             Reset Password
-// // // // // // // //           </a>
-// // // // // // // //           <p>Alternatively, copy and paste this link: <br> ${link}</p>
-// // // // // // // //           <p style="color: #666; font-size: 12px;">This link will expire in 10 minutes.</p>
+// // // // // // // //           <p>Click the link below to reset your password:</p>
+// // // // // // // //           <a href="${link}" style="color: blue;">${link}</a>
+// // // // // // // //           <p>This link expires in 10 minutes.</p>
 // // // // // // // //         </div>
 // // // // // // // //       `,
 // // // // // // // //     });
 
-// // // // // // // //     console.log("Email sent successfully:", data);
-// // // // // // // //     return data;
+// // // // // // // //     if (error) {
+// // // // // // // //       return console.error("❌ Resend API Error:", error);
+// // // // // // // //     }
+
+// // // // // // // //     console.log("✅ Email sent successfully! ID:", data.id);
 // // // // // // // //   } catch (error) {
-// // // // // // // //     console.error("Resend Error:", error);
-// // // // // // // //     throw new Error("Failed to send reset email.");
+// // // // // // // //     console.error("❌ Unexpected System Error:", error);
 // // // // // // // //   }
 // // // // // // // // };
 
+
 // // // // // // // import { Resend } from "resend";
 
+// // // // // // // /**
+// // // // // // //  * Sends a password reset email using the Resend HTTP API.
+// // // // // // //  * @param {string} to - The recipient's email address.
+// // // // // // //  * @param {string} link - The full URL (frontend) where the user resets their password.
+// // // // // // //  */
 // // // // // // // export const sendMail = async (to, link) => {
-// // // // // // //   // Access the key inside the function to ensure process.env is populated
-// // // // // // //   const resend = new Resend(process.env.RESEND_API_KEY);
+// // // // // // //   // 1. Validate API Key existence to prevent crashes
+// // // // // // //   const apiKey = process.env.RESEND_API_KEY;
 
-// // // // // // //   if (!process.env.RESEND_API_KEY) {
-// // // // // // //     throw new Error("RESEND_API_KEY is missing from environment variables");
+// // // // // // //   if (!apiKey) {
+// // // // // // //     console.error("❌ ERROR: RESEND_API_KEY is missing from environment variables.");
+// // // // // // //     return { success: false, error: "Missing API Key" };
 // // // // // // //   }
 
+// // // // // // //   // 2. Initialize Resend
+// // // // // // //   const resend = new Resend(apiKey);
+
 // // // // // // //   try {
-// // // // // // //     await resend.emails.send({
-// // // // // // //       from: "Password Reset <onboarding@resend.dev>",
+// // // // // // //     // 3. Send the email
+// // // // // // //     const { data, error } = await resend.emails.send({
+// // // // // // //       // IMPORTANT: Use 'onboarding@resend.dev' for the free tier
+// // // // // // //       from: "Auth System <onboarding@resend.dev>",
 // // // // // // //       to: [to],
-// // // // // // //       subject: "Password Reset",
-// // // // // // //       html: `<p>Click <a href="${link}">here</a> to reset your password.</p>`,
+// // // // // // //       subject: "Password Reset Request",
+// // // // // // //       // Using 'html' ensures the link is clickable in Gmail
+// // // // // // //       html: `
+// // // // // // //         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+// // // // // // //           <h2 style="color: #333;">Password Reset</h2>
+// // // // // // //           <p style="color: #555; font-size: 16px;">
+// // // // // // //             We received a request to reset your password. Click the button below to choose a new one:
+// // // // // // //           </p>
+// // // // // // //           <div style="text-align: center; margin: 30px 0;">
+// // // // // // //             <a href="${link}" style="background-color: #007bff; color: white; padding: 14px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+// // // // // // //               Reset Password
+// // // // // // //             </a>
+// // // // // // //           </div>
+// // // // // // //           <p style="color: #777; font-size: 14px;">
+// // // // // // //             If the button doesn't work, copy and paste this link into your browser:
+// // // // // // //           </p>
+// // // // // // //           <p style="word-break: break-all; color: #007bff; font-size: 12px;">
+// // // // // // //             ${link}
+// // // // // // //           </p>
+// // // // // // //           <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+// // // // // // //           <p style="color: #999; font-size: 12px; text-align: center;">
+// // // // // // //             This link will expire in 10 minutes. If you did not request this, please ignore this email.
+// // // // // // //           </p>
+// // // // // // //         </div>
+// // // // // // //       `,
 // // // // // // //     });
-// // // // // // //     console.log("Email sent!");
-// // // // // // //   } catch (error) {
-// // // // // // //     console.error("Resend Error:", error);
+
+// // // // // // //     if (error) {
+// // // // // // //       console.error("❌ Resend API Error:", error);
+// // // // // // //       return { success: false, error };
+// // // // // // //     }
+
+// // // // // // //     console.log("✅ Email sent successfully! Message ID:", data.id);
+// // // // // // //     return { success: true, id: data.id };
+    
+// // // // // // //   } catch (err) {
+// // // // // // //     console.error("❌ Unexpected System Error:", err);
+// // // // // // //     return { success: false, error: err.message };
 // // // // // // //   }
 // // // // // // // };
 
-// // // // // // import { Resend } from "resend";
+// // // import { Resend } from "resend";
 
-// // // // // // export const sendMail = async (to, link) => {
-// // // // // //   // 1. Check if the key exists FIRST
-// // // // // //   const apiKey = process.env.RESEND_API_KEY;
+// // // export const sendMail = async (to, link) => {
+// // //   const resend = new Resend(process.env.RESEND_API_KEY);
 
-// // // // // //   if (!apiKey) {
-// // // // // //     console.error("❌ ERROR: RESEND_API_KEY is missing from .env file or Render settings.");
-// // // // // //     return; // Stop here so the app doesn't crash
-// // // // // //   }
+// // //   try {
+// // //     // IMPORTANT: Note the { data, error } destructuring
+// // //     const { data, error } = await resend.emails.send({
+// // //       from: "onboarding@resend.dev",
+// // //       to: [to],
+// // //       subject: "Password Reset",
+// // //       html: `<p>Click <a href="${link}">here</a> to reset.</p>`,
+// // //     });
 
-// // // // // //   // 2. Initialize ONLY if key exists
-// // // // // //   const resend = new Resend(apiKey);
+// // //     if (error) {
+// // //       // This will show you exactly why Resend rejected the email
+// // //       console.error("❌ Resend API Refused request:", error);
+// // //       return;
+// // //     }
 
-// // // // // //   try {
-// // // // // //     // 3. Capture the response from Resend to see errors
-// // // // // //     const { data, error } = await resend.emails.send({
-// // // // // //       from: "Password Reset <onboarding@resend.dev>",
-// // // // // //       to: [to],
-// // // // // //       subject: "Password Reset",
-// // // // // //       html: `
-// // // // // //         <div style="font-family: sans-serif;">
-// // // // // //           <h2>Password Reset</h2>
-// // // // // //           <p>Click the link below to reset your password:</p>
-// // // // // //           <a href="${link}" style="color: blue;">${link}</a>
-// // // // // //           <p>This link expires in 10 minutes.</p>
-// // // // // //         </div>
-// // // // // //       `,
-// // // // // //     });
+// // //     console.log("✅ Resend accepted the email:", data);
+// // //   } catch (err) {
+// // //     console.error("❌ Network/System Error:", err);
+// // //   }
+// // // };
 
-// // // // // //     if (error) {
-// // // // // //       return console.error("❌ Resend API Error:", error);
-// // // // // //     }
+// // // // // import axios from 'axios';
 
-// // // // // //     console.log("✅ Email sent successfully! ID:", data.id);
-// // // // // //   } catch (error) {
-// // // // // //     console.error("❌ Unexpected System Error:", error);
-// // // // // //   }
-// // // // // // };
-
-
-// // // // // import { Resend } from "resend";
-
-// // // // // /**
-// // // // //  * Sends a password reset email using the Resend HTTP API.
-// // // // //  * @param {string} to - The recipient's email address.
-// // // // //  * @param {string} link - The full URL (frontend) where the user resets their password.
-// // // // //  */
 // // // // // export const sendMail = async (to, link) => {
-// // // // //   // 1. Validate API Key existence to prevent crashes
-// // // // //   const apiKey = process.env.RESEND_API_KEY;
+// // // // //   const BREVO_API_KEY = process.env.BREVO_API_KEY;
 
-// // // // //   if (!apiKey) {
-// // // // //     console.error("❌ ERROR: RESEND_API_KEY is missing from environment variables.");
-// // // // //     return { success: false, error: "Missing API Key" };
-// // // // //   }
-
-// // // // //   // 2. Initialize Resend
-// // // // //   const resend = new Resend(apiKey);
+// // // // //   const data = {
+// // // // //     sender: { name: "kanesha", email: "kaneshak79@gmail.com" }, // Your VERIFIED Gmail
+// // // // //     to: [{ email: to }],
+// // // // //     subject: "Password Reset Request",
+// // // // //     htmlContent: `
+// // // // //       <div style="font-family: Arial, sans-serif; padding: 20px;">
+// // // // //         <h2>Reset Your Password</h2>
+// // // // //         <p>Click the link below to reset your password. It expires in 10 minutes.</p>
+// // // // //         <a href="${link}" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+// // // // //           Reset Password
+// // // // //         </a>
+// // // // //       </div>
+// // // // //     `
+// // // // //   };
 
 // // // // //   try {
-// // // // //     // 3. Send the email
-// // // // //     const { data, error } = await resend.emails.send({
-// // // // //       // IMPORTANT: Use 'onboarding@resend.dev' for the free tier
-// // // // //       from: "Auth System <onboarding@resend.dev>",
-// // // // //       to: [to],
-// // // // //       subject: "Password Reset Request",
-// // // // //       // Using 'html' ensures the link is clickable in Gmail
-// // // // //       html: `
-// // // // //         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
-// // // // //           <h2 style="color: #333;">Password Reset</h2>
-// // // // //           <p style="color: #555; font-size: 16px;">
-// // // // //             We received a request to reset your password. Click the button below to choose a new one:
-// // // // //           </p>
-// // // // //           <div style="text-align: center; margin: 30px 0;">
-// // // // //             <a href="${link}" style="background-color: #007bff; color: white; padding: 14px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
-// // // // //               Reset Password
-// // // // //             </a>
-// // // // //           </div>
-// // // // //           <p style="color: #777; font-size: 14px;">
-// // // // //             If the button doesn't work, copy and paste this link into your browser:
-// // // // //           </p>
-// // // // //           <p style="word-break: break-all; color: #007bff; font-size: 12px;">
-// // // // //             ${link}
-// // // // //           </p>
-// // // // //           <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-// // // // //           <p style="color: #999; font-size: 12px; text-align: center;">
-// // // // //             This link will expire in 10 minutes. If you did not request this, please ignore this email.
-// // // // //           </p>
-// // // // //         </div>
-// // // // //       `,
+// // // // //     const response = await axios.post('https://api.brevo.com/v3/smtp/email', data, {
+// // // // //       headers: {
+// // // // //         'api-key': BREVO_API_KEY,
+// // // // //         'Content-Type': 'application/json'
+// // // // //       }
 // // // // //     });
-
-// // // // //     if (error) {
-// // // // //       console.error("❌ Resend API Error:", error);
-// // // // //       return { success: false, error };
-// // // // //     }
-
-// // // // //     console.log("✅ Email sent successfully! Message ID:", data.id);
-// // // // //     return { success: true, id: data.id };
-    
-// // // // //   } catch (err) {
-// // // // //     console.error("❌ Unexpected System Error:", err);
-// // // // //     return { success: false, error: err.message };
+// // // // //     console.log("✅ Email sent via Brevo:", response.data);
+// // // // //     return { success: true };
+// // // // //   } catch (error) {
+// // // // //     console.error("❌ Brevo Error:", error.response ? error.response.data : error.message);
+// // // // //     return { success: false };
 // // // // //   }
 // // // // // };
 
-// import { Resend } from "resend";
+// // // // import axios from 'axios';
 
-// export const sendMail = async (to, link) => {
-//   const resend = new Resend(process.env.RESEND_API_KEY);
+// // // // export const sendMail = async (to, link) => {
+// // // //   // 1. Get your API Key from your .env or Render Environment Variables
+// // // //   const BREVO_API_KEY = process.env.BREVO_API_KEY;
 
-//   try {
-//     // IMPORTANT: Note the { data, error } destructuring
-//     const { data, error } = await resend.emails.send({
-//       from: "onboarding@resend.dev",
-//       to: [to],
-//       subject: "Password Reset",
-//       html: `<p>Click <a href="${link}">here</a> to reset.</p>`,
-//     });
+// // // //   const emailData = {
+// // // //     // sender: The email you VERIFIED in Brevo 'Senders' tab
+// // // //     sender: { name: "kanesha", email: "kaneshak79@gmail.com" }, 
+// // // //     to: [{ email: to }],
+// // // //     subject: "Password Reset Request",
+// // // //     htmlContent: `
+// // // //       <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee;">
+// // // //         <h2>Password Reset</h2>
+// // // //         <p>You requested a password reset. Click the button below to continue:</p>
+// // // //         <a href="${link}" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+// // // //           Reset Password
+// // // //         </a>
+// // // //         <p style="margin-top: 20px; font-size: 12px; color: #666;">
+// // // //           If the button doesn't work, copy this link: ${link}
+// // // //         </p>
+// // // //       </div>
+// // // //     `
+// // // //   };
 
-//     if (error) {
-//       // This will show you exactly why Resend rejected the email
-//       console.error("❌ Resend API Refused request:", error);
-//       return;
-//     }
+// // // //   try {
+// // // //     // This is the REAL API link. Do not change it.
+// // // //     const response = await axios.post('https://api.brevo.com/v3/smtp/email', emailData, {
+// // // //       headers: {
+// // // //         'api-key': BREVO_API_KEY,
+// // // //         'Content-Type': 'application/json',
+// // // //         'Accept': 'application/json'
+// // // //       }
+// // // //     });
 
-//     console.log("✅ Resend accepted the email:", data);
-//   } catch (err) {
-//     console.error("❌ Network/System Error:", err);
-//   }
-// };
-
-// // // import axios from 'axios';
-
-// // // export const sendMail = async (to, link) => {
-// // //   const BREVO_API_KEY = process.env.BREVO_API_KEY;
-
-// // //   const data = {
-// // //     sender: { name: "kanesha", email: "kaneshak79@gmail.com" }, // Your VERIFIED Gmail
-// // //     to: [{ email: to }],
-// // //     subject: "Password Reset Request",
-// // //     htmlContent: `
-// // //       <div style="font-family: Arial, sans-serif; padding: 20px;">
-// // //         <h2>Reset Your Password</h2>
-// // //         <p>Click the link below to reset your password. It expires in 10 minutes.</p>
-// // //         <a href="${link}" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
-// // //           Reset Password
-// // //         </a>
-// // //       </div>
-// // //     `
-// // //   };
-
-// // //   try {
-// // //     const response = await axios.post('https://api.brevo.com/v3/smtp/email', data, {
-// // //       headers: {
-// // //         'api-key': BREVO_API_KEY,
-// // //         'Content-Type': 'application/json'
-// // //       }
-// // //     });
-// // //     console.log("✅ Email sent via Brevo:", response.data);
-// // //     return { success: true };
-// // //   } catch (error) {
-// // //     console.error("❌ Brevo Error:", error.response ? error.response.data : error.message);
-// // //     return { success: false };
-// // //   }
-// // // };
+// // // //     console.log("✅ Email sent! Brevo Message ID:", response.data.messageId);
+// // // //     return { success: true };
+// // // //   } catch (error) {
+// // // //     // This will print the specific reason if Brevo rejects the request
+// // // //     console.error("❌ Brevo Error:", error.response ? error.response.data : error.message);
+// // // //     return { success: false, error: error.response?.data || error.message };
+// // // //   }
+// // // // };
 
 // // import axios from 'axios';
 
 // // export const sendMail = async (to, link) => {
-// //   // 1. Get your API Key from your .env or Render Environment Variables
-// //   const BREVO_API_KEY = process.env.BREVO_API_KEY;
-
-// //   const emailData = {
-// //     // sender: The email you VERIFIED in Brevo 'Senders' tab
-// //     sender: { name: "kanesha", email: "kaneshak79@gmail.com" }, 
+// //   const data = {
+// //     // This MUST be the exact email you just verified in Step 1
+// //     sender: { name: "My App Support", email: "kaneshak2@gmail.com" },
 // //     to: [{ email: to }],
-// //     subject: "Password Reset Request",
+// //     subject: "Reset Your Password",
+    
+// //     // 1. Add Plain Text (Crucial for skipping spam filters without a domain)
+// //     textContent: `Hello! Please reset your password by copying this link into your browser: ${link}`,
+    
+// //     // 2. Add HTML
 // //     htmlContent: `
-// //       <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee;">
+// //       <div style="font-family: sans-serif; padding: 20px;">
 // //         <h2>Password Reset</h2>
-// //         <p>You requested a password reset. Click the button below to continue:</p>
-// //         <a href="${link}" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+// //         <p>Click the button below to reset your password:</p>
+// //         <a href="${link}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
 // //           Reset Password
 // //         </a>
-// //         <p style="margin-top: 20px; font-size: 12px; color: #666;">
-// //           If the button doesn't work, copy this link: ${link}
-// //         </p>
 // //       </div>
 // //     `
 // //   };
 
 // //   try {
-// //     // This is the REAL API link. Do not change it.
-// //     const response = await axios.post('https://api.brevo.com/v3/smtp/email', emailData, {
+// //     const response = await axios.post('https://api.brevo.com/v3/smtp/email', data, {
 // //       headers: {
-// //         'api-key': BREVO_API_KEY,
-// //         'Content-Type': 'application/json',
-// //         'Accept': 'application/json'
+// //         'api-key': process.env.BREVO_API_KEY,
+// //         'Content-Type': 'application/json'
 // //       }
 // //     });
-
-// //     console.log("✅ Email sent! Brevo Message ID:", response.data.messageId);
-// //     return { success: true };
+// //     console.log("✅ Email sent via Brevo!");
 // //   } catch (error) {
-// //     // This will print the specific reason if Brevo rejects the request
-// //     console.error("❌ Brevo Error:", error.response ? error.response.data : error.message);
-// //     return { success: false, error: error.response?.data || error.message };
+// //     console.error("❌ Brevo Error:", error.response?.data || error.message);
 // //   }
 // // };
 
-import axios from 'axios';
+// import nodemailer from 'nodemailer';
 
-export const sendMail = async (to, link) => {
-  const data = {
-    // This MUST be the exact email you just verified in Step 1
-    sender: { name: "My App Support", email: "kaneshak2@gmail.com" },
+// const transporter=nodemailer.createTransport({
+
+// })
+// export
+
+import SibApiV3Sdk from "sib-api-v3-sdk";
+
+const client = SibApiV3Sdk.ApiClient.instance;
+client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
+
+const sendMail = async (to, link) => {
+  const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+  const sendSmtpEmail = {
+    sender: { email: "kaneshak79@gmail.com" },
     to: [{ email: to }],
-    subject: "Reset Your Password",
-    
-    // 1. Add Plain Text (Crucial for skipping spam filters without a domain)
-    textContent: `Hello! Please reset your password by copying this link into your browser: ${link}`,
-    
-    // 2. Add HTML
+    subject: "Password Reset",
     htmlContent: `
-      <div style="font-family: sans-serif; padding: 20px;">
-        <h2>Password Reset</h2>
-        <p>Click the button below to reset your password:</p>
-        <a href="${link}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-          Reset Password
-        </a>
-      </div>
-    `
+      <h3>Password Reset</h3>
+      <p>Click below to reset:</p>
+      <a href="${link}">${link}</a>
+    `,
   };
 
-  try {
-    const response = await axios.post('https://api.brevo.com/v3/smtp/email', data, {
-      headers: {
-        'api-key': process.env.BREVO_API_KEY,
-        'Content-Type': 'application/json'
-      }
-    });
-    console.log("✅ Email sent via Brevo!");
-  } catch (error) {
-    console.error("❌ Brevo Error:", error.response?.data || error.message);
-  }
+  await apiInstance.sendTransacEmail(sendSmtpEmail);
 };
+
+export default sendMail;
